@@ -1,0 +1,96 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.XR;
+
+
+public class Player : MonoBehaviour
+{
+    public GameObject bullet;
+    public Transform parent;
+    public Transform limitL;
+    public Transform limitR;
+    public TextMeshProUGUI scoreText;
+    public int score;
+    public TextMeshProUGUI lifeText;
+    public int life;
+    public float fireRate;
+    public float nextFireTime;
+    public float speed;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        speed = 13f;
+        score = 0;
+        scoreText.text = score.ToString();
+        life = 5;
+        lifeText.text = life.ToString();
+        nextFireTime = 0.0f;
+        fireRate = 0.2f;
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        scoreText.text = score.ToString();
+        lifeText.text = life.ToString();
+
+        // DEPLACEMENTS
+        if (Input.GetKey(KeyCode.LeftArrow) || (Input.GetKey(KeyCode.A)))
+        {
+            transform.position += Vector3.left*speed * Time.deltaTime;
+        }
+        if (Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D)))
+        {
+            transform.position += Vector3.right*speed * Time.deltaTime;
+        }
+
+        // TIR
+       
+        nextFireTime += Time.deltaTime;
+
+        if (Input.GetKey(KeyCode.Space) && (nextFireTime >= fireRate))
+        {
+           
+            // Instancie une nouvelle balle
+            Instantiate(bullet, parent.position, parent.rotation);
+            nextFireTime = 0f;
+   
+        }
+
+        if (transform.position.x < limitL.position.x)
+        {
+            transform.position = new Vector3(limitR.position.x, transform.position.y, transform.position.z);
+        }
+        if (transform.position.x > limitR.position.x)
+        {
+            transform.position = new Vector3(limitL.position.x, transform.position.y, transform.position.z);
+        }
+
+        // LOOSE
+
+        if (life <= 0)
+        {
+            SceneManager.LoadScene("GameOverScene");
+        }
+
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Ennemy"))
+        {
+            Destroy(other.gameObject); 
+            life--;
+        }
+        if (other.CompareTag("Bonus"))
+        {
+            Destroy(other.gameObject);
+            life++;
+        }
+    }
+  
+}
