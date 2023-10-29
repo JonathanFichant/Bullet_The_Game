@@ -19,6 +19,8 @@ public class Player : MonoBehaviour
     public float fireRate;
     public float nextFireTime;
     public float speed;
+    public TextMeshProUGUI autofireText;
+    public bool autofire;
 
     // Start is called before the first frame update
     void Start()
@@ -30,6 +32,7 @@ public class Player : MonoBehaviour
         lifeText.text = life.ToString();
         nextFireTime = 0.0f;
         fireRate = 0.2f;
+        autofire = false;
 
     }
 
@@ -53,13 +56,33 @@ public class Player : MonoBehaviour
        
         nextFireTime += Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.Space) && (nextFireTime >= fireRate))
+
+        if (Input.GetKeyDown(KeyCode.CapsLock))
+        {
+            if (autofire == false)
+            {
+                autofire = true;
+                autofireText.color = Color.red;
+            } else
+            {
+                autofire = false;
+                autofireText.color = Color.white;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.Space) && (nextFireTime >= fireRate) && autofire == false)
         {
            
             // Instancie une nouvelle balle
             Instantiate(bullet, parent.position, parent.rotation);
             nextFireTime = 0f;
    
+        }
+
+        if (autofire && (nextFireTime >= fireRate))
+        {
+            Instantiate(bullet, parent.position, parent.rotation);
+            nextFireTime = 0f;
         }
 
         if (transform.position.x < limitL.position.x)
