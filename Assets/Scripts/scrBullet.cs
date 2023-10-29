@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
-        if (transform.position.y > 6)
+        if (transform.position.y > 5.2)
         {
             Destroy(gameObject);
         }

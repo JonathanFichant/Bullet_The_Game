@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
             if (autofire == false)
             {
                 autofire = true;
-                autofireText.color = Color.red;
+                autofireText.color = Color.green;
             } else
             {
                 autofire = false;
