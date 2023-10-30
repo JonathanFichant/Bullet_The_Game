@@ -10,7 +10,7 @@ public class Ennemy : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speedMob = 0.2f;
+        //speedMob = 0.2f;
         dead = false;
         player = FindObjectOfType<Player>();
     }

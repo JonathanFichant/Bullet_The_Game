@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
         score = 0;
         scoreText.text = score.ToString();
         life = 5;
-        lifeText.text = life.ToString();
+        lifeText.text = " x " + life.ToString();
         nextFireTime = 0.0f;
         fireRate = 0.2f;
         autofire = false;
@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         scoreText.text = score.ToString();
-        lifeText.text = life.ToString();
+        lifeText.text = " x " + life.ToString();
 
         // DEPLACEMENTS
         if (Input.GetKey(KeyCode.LeftArrow) || (Input.GetKey(KeyCode.A)))
