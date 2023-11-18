@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public float speed;
     public TextMeshProUGUI autofireText;
     public bool autofire;
+    public ScreenShake screenShake;
 
     // Start is called before the first frame update
     void Start()
@@ -108,6 +109,10 @@ public class Player : MonoBehaviour
         {
             Destroy(other.gameObject); 
             life--;
+
+            // SCREENSHAKE
+            screenShake.StartShake();
+
         }
         if (other.CompareTag("Bonus"))
         {
