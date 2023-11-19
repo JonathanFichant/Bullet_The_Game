@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
         speed = 13f;
         score = 0;
         scoreText.text = score.ToString();
-        life = 5;
+        life = 9;
         lifeText.text = " x " + life.ToString();
         nextFireTime = 0.0f;
         fireRate = 0.2f;
