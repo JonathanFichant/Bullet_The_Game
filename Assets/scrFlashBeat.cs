@@ -11,6 +11,7 @@ public class scrFlashBeat : MonoBehaviour
     private float decaySpeed;
     private float currentAlpha;
     public SpriteRenderer spriteFlash;
+    public float average;
 
     void Start()
     {
@@ -40,7 +41,7 @@ public class scrFlashBeat : MonoBehaviour
 
 
         // Utilisez les données audio pour détecter les battements
-        float average = CalculateAverageIntensity(spectrumData);
+        average = CalculateAverageIntensity(spectrumData);
 
         // Ajustez l'alpha en fonction de l'intensité des battements
         currentAlpha = Mathf.Lerp(currentAlpha, average > beatThreshold ? 1f : 0f, Time.deltaTime * 2);

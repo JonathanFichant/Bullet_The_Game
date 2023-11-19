@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        speed = 13f;
+        speed = 15f;
         score = 0;
         scoreText.text = score.ToString();
         life = 9;

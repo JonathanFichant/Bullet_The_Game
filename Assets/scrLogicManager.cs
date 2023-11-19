@@ -5,8 +5,9 @@ using UnityEngine;
 public class LogicManager : MonoBehaviour
 {
     public float timer;
-    public float finalCountdown;
-    public float speederCountdown;
+    public float timerDifficulty;
+    public float spawnDelay;
+    public GameObject Hexa;
     public GameObject Mob;
     public GameObject Mob2;
     public GameObject Speeder;
@@ -14,64 +15,64 @@ public class LogicManager : MonoBehaviour
     public float ecart;
     public int wave;
     public Player player;
-    // Start is called before the first frame update
+    public scrFlashBeat mainCameraScript;
+    private bool canSpawn;
+  
     void Start()
     {
         wave = 0;
         timer = 0;
-        finalCountdown = 5f;
+        spawnDelay = 0.6f;
         Switch = 1;
         ecart = 0f;
-        speederCountdown = 2f;
+        canSpawn = false;
+        //speederCountdown = 2f;
+        timerDifficulty = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.score >= 10)
+        timerDifficulty += Time.deltaTime;
+        float averageValue = mainCameraScript.average;
+
+
+        // difficulté incrémentale selon le temps
+
+        if  (timerDifficulty >= 10f)
         {
-            wave = 1;
-        }
-        else if  (player.score >= 135)
-        {
-            wave = 2;
+            spawnDelay -= 0.01f;
+            timerDifficulty -= 10;
+
         }
 
 
-        if (wave == 0)
+        if (canSpawn)
         {
-            // WAVE 0, mob classique hexagones blancs
-            timer += Time.deltaTime;
-            if (timer >= finalCountdown)
+            if (averageValue > 0.003)
             {
-                timer = 0f;
-                if (Switch == 1)
+                if (averageValue > 0.009)
                 {
-                    Instantiate(Mob, transform.position + (Vector3.up) * ecart, transform.rotation);
-                    Switch = 2;
+                    Instantiate(Speeder, new Vector3(Random.Range(-4f, 4f), transform.position.y, transform.position.z), Quaternion.Euler(0, 0, 90));
                 }
-                else if (Switch == 2)
+                else
                 {
-                    Instantiate(Mob2, transform.position, transform.rotation);
-                    Switch = 1;
+                    Instantiate(Hexa, new Vector3(Random.Range(-7f, 7f), transform.position.y, transform.position.z), Quaternion.Euler(0, 0, 0));
                 }
+            }
+            canSpawn = false;
+            timer = 0f;
+        }
+        else
+        {
+            timer += Time.deltaTime;
+            
+            if (timer >= spawnDelay)
+            {
+                canSpawn = true;
             }
         }
 
-        if (wave == 1)
-        {
-            // WAVE 0, mob classique hexagones blancs
-            timer += Time.deltaTime;
-            if (timer >= speederCountdown)
-            {
-                timer = 0f;
-                {
-                    //Instantiate(Speeder, transform.position + (Vector3.up), transform.rotation * Quaternion.Euler(0,0,90));
-                    Instantiate(Speeder, new Vector3(Random.Range(-8f, 8f), transform.position.y, transform.position.z), Quaternion.Euler(0, 0, 90));
-                }
-            }
-
-        }
 
     }
 }

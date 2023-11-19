@@ -19,7 +19,7 @@ public class Ennemy : MonoBehaviour
         dead = false;
         player = FindObjectOfType<Player>();
         screenShake = FindObjectOfType<ScreenShake>();
-        amplitude = 20.0f;
+        amplitude = 8.0f;
         frequency = 5.0f;
         phaseShift = Random.Range(0.0f, 1.0f);
     }
