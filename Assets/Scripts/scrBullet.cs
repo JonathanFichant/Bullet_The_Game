@@ -7,8 +7,7 @@ public class Bullet : MonoBehaviour
     public Rigidbody2D monRigidBody;
     public float speed = 12f;
     public GameObject bonus;
-    public Player player;
-    
+    public Player player;    
 
 
     void Start()
@@ -33,7 +32,7 @@ public class Bullet : MonoBehaviour
             player.score++; // incrémentation valeur score de l'objet player
             if (Random.Range(0, 100) <= 5) // pourcentage de drop
             {
-                Instantiate(bonus, other.gameObject.transform.position, other.gameObject.transform.rotation);
+                Instantiate(bonus, other.gameObject.transform.position, transform.rotation);
             }
         }
     }

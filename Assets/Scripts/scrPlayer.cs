@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI autofireText;
     public bool autofire;
     public ScreenShake screenShake;
+    public float speedBullet = 12f;
 
     // Start is called before the first frame update
     void Start()
@@ -46,15 +47,26 @@ public class Player : MonoBehaviour
         // DEPLACEMENTS
         if (Input.GetKey(KeyCode.LeftArrow) || (Input.GetKey(KeyCode.A)))
         {
-            transform.position += Vector3.left*speed * Time.deltaTime;
+            transform.position += Vector3.left * speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D)))
         {
-            transform.position += Vector3.right*speed * Time.deltaTime;
+            transform.position += Vector3.right * speed * Time.deltaTime;
         }
 
         // TIR
-       
+
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            // Instancie une nouvelle balle
+            Instantiate(bullet, parent.position, parent.rotation);
+            nextFireTime = 0f;
+            // Instancie une nouvelle balle
+            Instantiate(bullet, parent.position, parent.rotation);
+            nextFireTime = 0f;
+        }
+
+
         nextFireTime += Time.deltaTime;
 
 
@@ -73,11 +85,14 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Space) && (nextFireTime >= fireRate) && autofire == false)
         {
-           
+
             // Instancie une nouvelle balle
-            Instantiate(bullet, parent.position, parent.rotation);
+            GameObject newBullet = Instantiate(bullet, parent.position, parent.rotation);
+            Rigidbody rbBullet = newBullet.GetComponent<Rigidbody>();
+            rbBullet.velocity = Vector3.forward * speedBullet;
+
             nextFireTime = 0f;
-   
+
         }
 
         if (autofire && (nextFireTime >= fireRate))
@@ -107,7 +122,7 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Ennemy"))
         {
-            Destroy(other.gameObject); 
+            Destroy(other.gameObject);
             life--;
 
             // SCREENSHAKE
@@ -120,5 +135,11 @@ public class Player : MonoBehaviour
             life++;
         }
     }
-  
+
+
+    private void Shoot(Vector3 directionTir){
+
+
+        }
+
 }
