@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     public bool autofire;
     public ScreenShake screenShake;
     public float speedBullet = 12f;
+    public float speedBulletBonus = 18f;
+    public float nextFireTimeBonus = 0.0f;
+    public float fireRateBonus = 5f;
 
     // Start is called before the first frame update
     void Start()
@@ -56,19 +59,18 @@ public class Player : MonoBehaviour
 
         // TIR
 
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            // Instancie une nouvelle balle
-            Instantiate(bullet, parent.position, parent.rotation);
-            nextFireTime = 0f;
-            // Instancie une nouvelle balle
-            Instantiate(bullet, parent.position, parent.rotation);
-            nextFireTime = 0f;
-        }
-
-
         nextFireTime += Time.deltaTime;
+        nextFireTimeBonus += Time.deltaTime;
 
+        if (Input.GetKeyDown(KeyCode.S) && (nextFireTimeBonus >= fireRateBonus)) // TIR SPECIAL LATERAL
+        {
+            nextFireTimeBonus = 0f;
+
+            // Tir droit
+            Shoot(Vector2.right, speedBulletBonus, new Vector3(0.3f, -0.4f, 0f),3f);
+            // Tir gauche
+            Shoot(Vector2.left, speedBulletBonus, new Vector3(-0.3f,-0.4f,0f),3f);
+        }
 
         if (Input.GetKeyDown(KeyCode.CapsLock))
         {
@@ -83,21 +85,16 @@ public class Player : MonoBehaviour
             }
         }
 
+
         if (Input.GetKey(KeyCode.Space) && (nextFireTime >= fireRate) && autofire == false)
         {
-
-            // Instancie une nouvelle balle
-            GameObject newBullet = Instantiate(bullet, parent.position, parent.rotation);
-            Rigidbody rbBullet = newBullet.GetComponent<Rigidbody>();
-            rbBullet.velocity = Vector3.forward * speedBullet;
-
             nextFireTime = 0f;
-
+            Shoot(Vector2.up, speedBullet,Vector3.zero,1f);
         }
 
         if (autofire && (nextFireTime >= fireRate))
         {
-            Instantiate(bullet, parent.position, parent.rotation);
+            Shoot(Vector2.up, speedBullet, Vector3.zero,1f);
             nextFireTime = 0f;
         }
 
@@ -137,9 +134,12 @@ public class Player : MonoBehaviour
     }
 
 
-    private void Shoot(Vector3 directionTir){
+    void Shoot(Vector2 directionTir, float bulletSpeed, Vector3 positionBonus, float scaleMultiplier) {
+        GameObject newBullet = Instantiate(bullet, parent.position + positionBonus, parent.rotation);
+        Bullet bulletScript = newBullet.GetComponent<Bullet>();
+        newBullet.transform.localScale *= scaleMultiplier;
 
-
-        }
+        bulletScript.SetDirectionAndSpeed(directionTir, bulletSpeed, scaleMultiplier);
+    }
 
 }

@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public Rigidbody2D monRigidBody;
+    public Rigidbody2D rbBullet;
     public float speed = 12f;
     public GameObject bonus;
-    public Player player;    
-
+    public Player player;
+    public TrailRenderer trailRenderer;
 
     void Start()
     {
-        monRigidBody.velocity = Vector3.up * speed;
         player = FindObjectOfType<Player>();
     }
 
@@ -35,5 +34,12 @@ public class Bullet : MonoBehaviour
                 Instantiate(bonus, other.gameObject.transform.position, transform.rotation);
             }
         }
+    }
+
+    public void SetDirectionAndSpeed(Vector2 direction, float speed, float scaleMultiplier)
+    {
+        rbBullet.velocity = direction * speed;
+        trailRenderer.startWidth *= scaleMultiplier;
+        trailRenderer.endWidth *= scaleMultiplier;
     }
 }
