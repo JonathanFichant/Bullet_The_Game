@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Animation;
 using UnityEngine;
 
 public class Ennemy : MonoBehaviour
@@ -7,21 +8,42 @@ public class Ennemy : MonoBehaviour
     public Player player;
     public float speedMob;
     public bool dead;
-    // Start is called before the first frame update
+    public float amplitude; 
+    public float frequency;
+    public bool moveSin;
+    public float phaseShift;
+    public ScreenShake screenShake;
+
     void Start()
     {
-        //speedMob = 0.2f;
         dead = false;
         player = FindObjectOfType<Player>();
+        screenShake = FindObjectOfType<ScreenShake>();
+        amplitude = 8.0f;
+        frequency = 5.0f;
+        phaseShift = Random.Range(0.0f, 1.0f);
     }
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.down*speedMob * Time.deltaTime;
+        if (moveSin) // mouvement sinusoïdal
+        {
+
+            float newX = Mathf.Sin((Time.time + phaseShift) * frequency) * amplitude;
+            transform.position += new Vector3(newX, -speedMob, 0) * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += Vector3.down * speedMob * Time.deltaTime;
+        }
+
         if (transform.position.y < -5.5 && !dead)
         {
             dead = true;
             player.life--;
+            // SCREENSHAKE
+            screenShake.StartShake();
+
         }
     }
 }

@@ -21,14 +21,19 @@ public class Player : MonoBehaviour
     public float speed;
     public TextMeshProUGUI autofireText;
     public bool autofire;
+    public ScreenShake screenShake;
+    public float speedBullet = 12f;
+    public float speedBulletBonus = 18f;
+    public float nextFireTimeBonus = 0.0f;
+    public float fireRateBonus = 5f;
 
     // Start is called before the first frame update
     void Start()
     {
-        speed = 13f;
+        speed = 15f;
         score = 0;
         scoreText.text = score.ToString();
-        life = 5;
+        life = 9;
         lifeText.text = " x " + life.ToString();
         nextFireTime = 0.0f;
         fireRate = 0.2f;
@@ -45,17 +50,27 @@ public class Player : MonoBehaviour
         // DEPLACEMENTS
         if (Input.GetKey(KeyCode.LeftArrow) || (Input.GetKey(KeyCode.A)))
         {
-            transform.position += Vector3.left*speed * Time.deltaTime;
+            transform.position += Vector3.left * speed * Time.deltaTime;
         }
         if (Input.GetKey(KeyCode.RightArrow) || (Input.GetKey(KeyCode.D)))
         {
-            transform.position += Vector3.right*speed * Time.deltaTime;
+            transform.position += Vector3.right * speed * Time.deltaTime;
         }
 
         // TIR
-       
-        nextFireTime += Time.deltaTime;
 
+        nextFireTime += Time.deltaTime;
+        nextFireTimeBonus += Time.deltaTime;
+
+        if (Input.GetKeyDown(KeyCode.S) && (nextFireTimeBonus >= fireRateBonus)) // TIR SPECIAL LATERAL
+        {
+            nextFireTimeBonus = 0f;
+
+            // Tir droit
+            Shoot(Vector2.right, speedBulletBonus, new Vector3(0.3f, -0.4f, 0f),3f);
+            // Tir gauche
+            Shoot(Vector2.left, speedBulletBonus, new Vector3(-0.3f,-0.4f,0f),3f);
+        }
 
         if (Input.GetKeyDown(KeyCode.CapsLock))
         {
@@ -70,18 +85,16 @@ public class Player : MonoBehaviour
             }
         }
 
+
         if (Input.GetKey(KeyCode.Space) && (nextFireTime >= fireRate) && autofire == false)
         {
-           
-            // Instancie une nouvelle balle
-            Instantiate(bullet, parent.position, parent.rotation);
             nextFireTime = 0f;
-   
+            Shoot(Vector2.up, speedBullet,Vector3.zero,1f);
         }
 
         if (autofire && (nextFireTime >= fireRate))
         {
-            Instantiate(bullet, parent.position, parent.rotation);
+            Shoot(Vector2.up, speedBullet, Vector3.zero,1f);
             nextFireTime = 0f;
         }
 
@@ -106,8 +119,12 @@ public class Player : MonoBehaviour
     {
         if (other.CompareTag("Ennemy"))
         {
-            Destroy(other.gameObject); 
+            Destroy(other.gameObject);
             life--;
+
+            // SCREENSHAKE
+            screenShake.StartShake();
+
         }
         if (other.CompareTag("Bonus"))
         {
@@ -115,5 +132,14 @@ public class Player : MonoBehaviour
             life++;
         }
     }
-  
+
+
+    void Shoot(Vector2 directionTir, float bulletSpeed, Vector3 positionBonus, float scaleMultiplier) {
+        GameObject newBullet = Instantiate(bullet, parent.position + positionBonus, parent.rotation);
+        Bullet bulletScript = newBullet.GetComponent<Bullet>();
+        newBullet.transform.localScale *= scaleMultiplier;
+
+        bulletScript.SetDirectionAndSpeed(directionTir, bulletSpeed, scaleMultiplier);
+    }
+
 }

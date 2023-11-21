@@ -100,8 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  speedMob: 7
+  speedMob: 2
   dead: 0
+  amplitude: 1
+  frequency: 1
+  moveSin: 1
 --- !u!50 &4741516260115598678
 Rigidbody2D:
   serializedVersion: 4
