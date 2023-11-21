@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
         nextFireTime += Time.deltaTime;
         nextFireTimeBonus += Time.deltaTime;
 
-        if (Input.GetKeyDown(KeyCode.S) && (nextFireTimeBonus >= fireRateBonus)) // TIR SPECIAL LATERAL
+        if ( (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) ) && (nextFireTimeBonus >= fireRateBonus)) // TIR SPECIAL LATERAL
         {
             nextFireTimeBonus = 0f;
 
