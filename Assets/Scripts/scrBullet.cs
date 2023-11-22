@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour
     public GameObject bonus;
     public Player player;
     public TrailRenderer trailRenderer;
+    public GameObject ExplosionHexa;
+    public GameObject ExplosionSpeeder;
 
     void Start()
     {
@@ -26,6 +28,8 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Ennemy")){
+            Instantiate(ExplosionHexa, other.gameObject.transform.position, transform.rotation);
+            //Instantiate(ExplosionSpeeder, other.gameObject.transform.position, transform.rotation);
             Destroy(other.gameObject); // destruction des objets avec tag Ennemy
             Destroy(gameObject); // destruction de l'objet lui meme
             player.score++; // incrémentation valeur score de l'objet player

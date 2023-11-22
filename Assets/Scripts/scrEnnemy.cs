@@ -36,6 +36,8 @@ public class Ennemy : MonoBehaviour
         {
             transform.position += Vector3.down * speedMob * Time.deltaTime;
         }
+        
+
 
         if (transform.position.y < -5.5 && !dead)
         {

@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class scrGameOverManager : MonoBehaviour
+public class scrStartManager : MonoBehaviour
 {
-    public int finalScore = 0;
-
+    // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -19,6 +18,6 @@ public class scrGameOverManager : MonoBehaviour
         {
             SceneManager.LoadScene("SampleScene");
         }
-        
+
     }
 }
