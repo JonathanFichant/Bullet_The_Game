@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ennemy
   - Bonus
+  - Hexa
   layers:
   - Default
   - TransparentFX

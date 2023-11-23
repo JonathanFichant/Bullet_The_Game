@@ -28,8 +28,14 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Ennemy")){
-            Instantiate(ExplosionHexa, other.gameObject.transform.position, transform.rotation);
-            //Instantiate(ExplosionSpeeder, other.gameObject.transform.position, transform.rotation);
+            if (other.name.Contains("Hexa"))
+            {
+                Instantiate(ExplosionHexa, other.gameObject.transform.position, transform.rotation);
+            }
+            else if (other.name.Contains("Speeder"))
+            {
+                Instantiate(ExplosionSpeeder, other.gameObject.transform.position, transform.rotation);
+            }
             Destroy(other.gameObject); // destruction des objets avec tag Ennemy
             Destroy(gameObject); // destruction de l'objet lui meme
             player.score++; // incrémentation valeur score de l'objet player

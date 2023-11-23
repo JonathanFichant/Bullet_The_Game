@@ -59,8 +59,6 @@ public class scrFlashBeat : MonoBehaviour
             // Déclenchez le flash blanc
             StartFlash();
         }
-
-        Debug.Log(average);
         
     }
 
