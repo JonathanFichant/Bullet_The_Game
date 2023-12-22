@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class scrGameOverManager : MonoBehaviour
 {
@@ -9,12 +10,12 @@ public class scrGameOverManager : MonoBehaviour
 
     void Start()
     {
-        /*// Trouver le joueur préservé dans la nouvelle scène
+        /*// Trouver le joueur prï¿½servï¿½ dans la nouvelle scï¿½ne
         GameObject playerObject = GameObject.FindWithTag("Player");
 
         if (playerObject != null)
         {
-            // Accéder aux variables du joueur
+            // Accï¿½der aux variables du joueur
             Player playerScript = playerObject.GetComponent<Player>();
 
             if (playerScript != null)
