@@ -29,8 +29,6 @@ public class scrFlashBeat : MonoBehaviour
     void Update()
     {
 
-
-
         // intensité
         float[] spectrumData = new float[256];
         audioSource.GetSpectrumData(spectrumData, 0, FFTWindow.Rectangular);

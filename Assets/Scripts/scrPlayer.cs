@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-//using UnityEngine.XR;
+using UnityEngine.XR;
 
 
 public class Player : MonoBehaviour
@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public float nextFireTimeBonus = 0.0f;
     public float fireRateBonus = 5f;
 
-    private VariableManager variableManager;
+    public VariableManager variableManager;
 
     // Start is called before the first frame update
     void Start()
